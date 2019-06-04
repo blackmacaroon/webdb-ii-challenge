@@ -25,16 +25,19 @@ router.post('/', (req, res) => {
 
 router.get('/:id',  (req, res) => {
       const id = req.params.id;
-      
-      Zoos.findById(id)
-      .then(zoo => {
-            res.status(200).json(zoo);
-            // 201 CREATED
-      })
-      .catch(err => {
-            console.log(err);
-            res.status(500).json({ message: "Couldn't get that zoo.." });
-      })
+      if(!id) {
+            res.status(404).json({message: 'that id does not yet exist'})
+      } else {
+            Zoos.findById(id)
+            .then(zoo => {
+                  res.status(200).json(zoo);
+                  // 201 CREATED
+            })
+            .catch(err => {
+                  console.log(err);
+                  res.status(500).json({ message: "Couldn't get that zoo.." });
+            })
+      }
 });
 
 router.put('/:id', (req, res) => {

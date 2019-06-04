@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => { 
-      console.log(req.body)
+      // console.log(req.body)
       Bears.add(req.body)
       .then(bear => {
             res.status(201).json({message: "success"});
@@ -23,13 +23,12 @@ router.post('/', (req, res) => {
       })
 });
 
-router.get('/:id',  (req, res) => {
+router.get('/:id', validateId,  (req, res) => {
       const id = req.params.id;
-      
       Bears.findById(id)
       .then(bear => {
             res.status(200).json(bear);
-            // 201 CREATED
+            
       })
       .catch(err => {
             console.log(err);
@@ -37,28 +36,24 @@ router.get('/:id',  (req, res) => {
       })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validateId, (req, res) => {
       const id = req.params.id;
-      const { name } = req.body;
-      if (!name) { 
-            res.status(400).json({ message: 'name is a required field'}) 
-      } else { 
-            Bears.update(id, req.body)
-            .then(count => {
-                  if(count > 0) {
-                        res.status(200).json({message: `${count} records updated`})
-                  } else {
-                        res.status(404).json({ message: 'bear not found'})
-                  }
-            })
-            .catch(err => {
-                  res.status(500).json(err)
-            })
-      }
+      const changes = req.body;
+      Bears.update(id, changes)
+      .then(count => {
+            if(count > 0) {
+                  res.status(200).json({message: `${count} records updated`})
+            } else {
+                  res.status(404).json({ message: 'bear not found'})
+            }
+      })
+      .catch(err => {
+            res.status(500).json(err)
+      })
 });
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateId, (req, res) => {
       const id = req.params.id;
       Bears.remove(id)
       .then(count => {
@@ -74,7 +69,21 @@ router.delete('/:id', (req, res) => {
       })
     });
 
-
-
+//middleware
+function validateId(req, res, next) {
+      const id = req.params.id;
+      Bears.findById(id)
+      .then(id => {
+            if(id) {
+                  req.id = id;
+                  next();
+            } else {
+                  res.status(404).json({ err: 'that ID does not currently exist'})
+            }
+      })
+      .catch(err => {
+            res.status(500).json(err)
+      })
+}
 
 module.exports = router;

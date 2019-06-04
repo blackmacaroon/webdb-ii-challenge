@@ -38,7 +38,7 @@ async function add(bear) {
 function update(id, changes) {
       return db('bears')
       .where({ id })
-      .update(changes, "*");
+      .update(changes);
 }
 
 function remove(id) {

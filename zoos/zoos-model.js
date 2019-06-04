@@ -38,7 +38,7 @@ async function add(zoo) {
 function update(id, changes) {
       return db('zoos')
       .where({ id })
-      .update(changes, "*");
+      .update(changes);
 }
 
 function remove(id) {
