@@ -59,13 +59,14 @@ router.put('/:id', (req, res) => {
 
 
 router.delete('/:id', (req, res) => {
+      const id = req.params.id;
       Zoos.remove(id)
       .then(count => {
         if(count > 0) {
           const unit = count > 1 ? 'records' : 'record';
           res.status(200).json({message: `${count} ${unit} deleted`})
         } else {
-          res.status(404).json({ message: 'role not found'})
+          res.status(404).json({ message: 'zoo not found'})
         }
       })
       .catch(err => {
