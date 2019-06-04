@@ -25,18 +25,24 @@ function find() {
 }
 
 function finById(id) {
-      return db('zoos').where({ id })
+      return db('zoos')
+      .where({ id })
       .first();
 }
 
-function add(zoo) {
-      return null
+async function add(zoo) {
+      const [id] = await db('zoos').insert(zoo);
+      return finById(id)
 }
 
 function update(id, change) {
-      return null
+      return db('zoos')
+      .where({ id })
+      .update(changes, "*");
 }
 
 function remove(id) {
-      return null
+      return db('zoos')
+      .where({ id })
+      .del();
 }
