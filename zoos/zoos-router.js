@@ -48,7 +48,7 @@ router.put('/:id', (req, res) => {
                   if(count > 0) {
                         res.status(200).json({message: `${count} records updated`})
                   } else {
-                        res.status(404).json({ message: 'role not found'})
+                        res.status(404).json({ message: 'zoo not found'})
                   }
             })
             .catch(err => {

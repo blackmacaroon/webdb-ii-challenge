@@ -32,7 +32,7 @@ function findById(id) {
 
 async function add(bear) {
       const [id] = await db('bears').insert(bear);
-      return finById(id)
+      return findById(id)
 }
 
 function update(id, changes) {

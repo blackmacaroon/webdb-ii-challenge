@@ -4,7 +4,7 @@ const Bears = require('./bears-model.js');
 router.get('/', (req, res) => {
       Bears.find()
       .then(bears => {
-            res.status(200).json(zoos)
+            res.status(200).json(bears)
       })
       .catch(err => {
             res.status(500).json({ error: 'could not get bears from database'});
