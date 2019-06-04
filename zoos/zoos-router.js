@@ -1,15 +1,15 @@
-const knex = require('knex');
-
 const router = require('express').Router();
 const Zoos = require('./zoos-model.js');
 
-const config = {
-      client: 'sqlite3',
-      connection: {
-            filename: './data/lambda.db3'
-      },
-      useNullAsDefault: true;
-}
+router.get('/', (req, res) => {
+      Zoos.find()
+      .then(zoos => {
+            res.status(200).json(zoos)
+      })
+})
 
-const db = knex(config);
 
+
+
+
+module.exports = router;
